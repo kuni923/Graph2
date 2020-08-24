@@ -141,79 +141,91 @@ class seihou_koushi(make_graph_complete):
 """if __name__ == "__main__":
 正方格子のテスト"""
 
-L=3 #最初に１辺のノード数を与える。L×Lの正方格子
-#次数４で生成
-GGraph = seihou_koushi()
-GGraph.seihou_koushi_4(L, False)
-print(GGraph.get_nodes_list())
-print(len(GGraph.get_nodes_list()))
+# L=3 #最初に１辺のノード数を与える。L×Lの正方格子
+# #次数４で生成
+# GGraph = seihou_koushi()
+# GGraph.seihou_koushi_4(L, False)
+# print(GGraph.get_nodes_list())
+# print(len(GGraph.get_nodes_list()))
 
-GGnodes = GGraph.labelling(L)#ノード座標の順序付辞書を生成する
-print(GGnodes)
+# GGnodes = GGraph.labelling(L)#ノード座標の順序付辞書を生成する
+# print("labelling", GGnodes)
 
-nodes_list=list(GGnodes)#生成した格子の全ノードを表示して確認。
-print('ノードリスト＝', nodes_list)
-print(list(GGraph.G.nodes))#生成した格子の全ノードを表示して確認。
+# nodes_list=list(GGnodes)#生成した格子の全ノードを表示して確認。
+# print('ノードリスト＝', nodes_list)
+# print(list(GGraph.G.nodes))#生成した格子の全ノードを表示して確認。
 
-rinjin_0 = GGraph.get_rinjin(GGnodes[0])
-print(rinjin_0)
-ALL_rinjin = GGraph.get_ALL_rinjin_list()
-print(ALL_rinjin)
+# rinjin_0 = GGraph.get_rinjin(GGnodes[0])
+# print(rinjin_0)
+# ALL_rinjin = GGraph.get_ALL_rinjin_list() #ayashi
+# print(ALL_rinjin)
 
-keys = GGraph.get_keys_from_value((0,0))#座標からノードリストの番号に変換する。
-print(keys)
+# keys = GGraph.get_keys_from_value((0,0))#座標からノードリストの番号に変換する。
+# print("key=", keys)
 
-print(GGnodes[0])
-print(GGraph.degree_of_a_node(GGnodes[0]))#(0,0)の次数は2
-print(GGraph.get_rinjin((0,0)))
-print(GGraph.get_rinjin(GGnodes[0]))
+# test =[]
+# for j in range(len(nodes_list)):
+#     current_rinjin = GGraph.get_rinjin(GGnodes[j])
+#     ttest = []
+#     for i in range(len(current_rinjin)):
+#         keys = GGraph.get_keys_from_value(current_rinjin[i])[0] #keys is a list which includes only one element. Thus [0] get this element
+#         ttest.append(keys)
+#     test.append(ttest)
+# print("____________", test)
 
-print(GGraph.getGGidNum())#ここは0
+
+
+# print(GGnodes[0])
+# print(GGraph.degree_of_a_node(GGnodes[0]))#(0,0)の次数は2
+# print(GGraph.get_rinjin((0,0)))
+# print(GGraph.get_rinjin(GGnodes[0]))
+
+# print(GGraph.getGGidNum())#ここは0
 
 
 # %%
 
-#次数８に拡張
-GGraph.add_cross_edge([L,L])#すでにあるオブジェクトに斜め線を加える。
-print(GGraph.get_nodes_list())
-print(len(GGraph.get_nodes_list()))
+# #次数８に拡張
+# GGraph.add_cross_edge([L,L])#すでにあるオブジェクトに斜め線を加える。
+# print(GGraph.get_nodes_list())
+# print(len(GGraph.get_nodes_list()))
 
-GGnodes2 = GGraph.labelling(L)
-print(GGnodes2)
+# GGnodes2 = GGraph.labelling(L)
+# print(GGnodes2)
 
-nodes_list2 = list(GGnodes2)
-print('ノードリスト＝', nodes_list2)
+# nodes_list2 = list(GGnodes2)
+# print('ノードリスト＝', nodes_list2)
 
-ALL_rinjin = GGraph.get_ALL_rinjin_list()
-print(ALL_rinjin)
+# ALL_rinjin = GGraph.get_ALL_rinjin_list()
+# print(ALL_rinjin)
 
-keys = GGraph.get_keys_from_value((0,0))#座標からノードリストの番号に変換する。
-print(keys)
+# keys = GGraph.get_keys_from_value((0,0))#座標からノードリストの番号に変換する。
+# print(keys)
 
-print(GGnodes2[0])
-print(GGraph.degree_of_a_node(GGnodes2[0])) #ここでは(0,0)の次数が2から3に増える。斜めが入ったため。
-print(GGraph.get_rinjin((0,0)))#隣人も１つ増える。
-print(GGraph.get_rinjin(GGnodes2[0]))#同上
+# print(GGnodes2[0])
+# print(GGraph.degree_of_a_node(GGnodes2[0])) #ここでは(0,0)の次数が2から3に増える。斜めが入ったため。
+# print(GGraph.get_rinjin((0,0)))#隣人も１つ増える。
+# print(GGraph.get_rinjin(GGnodes2[0]))#同上
 
-print(GGraph.getGGidNum())#ここではインスタンスのインデックスは0のまま、新たなインスタンスを生成していないため
+# print(GGraph.getGGidNum())#ここではインスタンスのインデックスは0のまま、新たなインスタンスを生成していないため
 
-GGraph2 = seihou_koushi() # 新たなインスタンスを生成
-GGraph2.seihou_koushi_4(L, False)
-print(GGraph2.get_nodes_list())
-print(len(GGraph2.get_nodes_list()))
+# GGraph2 = seihou_koushi() # 新たなインスタンスを生成
+# GGraph2.seihou_koushi_4(L, False)
+# print(GGraph2.get_nodes_list())
+# print(len(GGraph2.get_nodes_list()))
 
-print(GGraph2.getGGidNum())#ここで1に増える。新たなインスタンスを生成したため。
-#以下インスタンスが新しくなっただけなので、インデックス０のオブジェクト（次数４）と同じ結果が出る。
-GGnodes2 = GGraph2.labelling(L)
-print(GGnodes2)
+# print(GGraph2.getGGidNum())#ここで1に増える。新たなインスタンスを生成したため。
+# #以下インスタンスが新しくなっただけなので、インデックス０のオブジェクト（次数４）と同じ結果が出る。
+# GGnodes2 = GGraph2.labelling(L)
+# print(GGnodes2)
 
-nodes_list2 = list(GGnodes2)
-print(nodes_list2)
+# nodes_list2 = list(GGnodes2)
+# print(nodes_list2)
 
-print(GGnodes2[0])
-print(GGraph2.degree_of_a_node(GGnodes2[0]))
-print(GGraph2.get_rinjin((0,0)))
-print(GGraph2.get_rinjin(GGnodes2[0]))
+# print(GGnodes2[0])
+# print(GGraph2.degree_of_a_node(GGnodes2[0]))
+# print(GGraph2.get_rinjin((0,0)))
+# print(GGraph2.get_rinjin(GGnodes2[0]))
 
 
 
