@@ -28,7 +28,7 @@ class Simple_players:
     def move(self):
         """playの仕方、その１（混合戦略）"""
         return random.uniform(0,1) < self.p_defect
-        #hikakubun ha true false wo kaesu
+        #比較文はTrue, Falseを返すことを使っている。PythonのルールでFalse = 0なので、以下の利得計算時に[0][0]になる利得行列の位置は（協力、協力）。つまり(False, False)がここではお互い協力の履歴となる。
     def action(self, game):#delegation to belief
         """playの仕方、その２"""
         return self.belief.action(self, game)
@@ -66,8 +66,8 @@ class Belief:
 
 class Updating_Players(Simple_players):
     #ビリーフの確率的なアップデートを追加
-    def __init__(self, p, belief):
-        super().__init__(p,belief) 
+    def __init__(self, p, belief, players_id):
+        super().__init__(p, belief, players_id) 
     def evolve(self):
         self.belief = self.next_belief
     def get_payoff(self):
@@ -88,7 +88,8 @@ def best_among_playtypes(player):
             best_types.append(opponent.belief)
     return best_types
 
-class SimpleGame:#プレーヤー数二人のゲームで対戦を繰り返す
+'''2人ゲーム、つまり２人のペアで行われる対戦インスタンスを作成するクラス'''
+class SimpleGame:#あるプレイヤーとあるプレイヤーの対戦を生成する。
     def __init__(self, players, payoffmat):
         #initialize instance attributes
         self.players = players
@@ -148,22 +149,25 @@ class SimpleGame:#プレーヤー数二人のゲームで対戦を繰り返す
             last_move = None
         return last_move
 
-class Soup_Round(SimpleGame):#プレーヤー数N人のゲームにおける1on1対戦
-    def __init__(self, players, payoffmat):
-        super().__init__(players, payoffmat)
-        self.players = players
-        self.payoffmat = payoffmat
+''''このクラスは使っていない。未完成'''
+# class Soup_Round(SimpleGame):#プレーヤー数N人のゲームにおける1on1対戦
+#     def __init__(self, players, payoffmat):
+#         super().__init__(players, payoffmat)
+#         self.players = players
+#         self.payoffmat = payoffmat
 
-    def move_run(self):#対戦ペアを１つつくり、シンプルゲームをつくってmove_runで実行する。
-        players = random.sample(self.players, 2)
-        payoffmat = self.payoffmat
-        GAME_ITER = 1
-        print(players)#変数への格納のtest
-        game = SimpleGame(players=players,payoffmat=payoffmat)
-        game.move_run(GAME_ITER) #need not to repeat
-        print(game.history)
+#     def move_run(self):#対戦ペアを１つつくり、シンプルゲームをつくってmove_runで実行する。
+#         players = random.sample(self.players, 2)
+#         payoffmat = self.payoffmat
+#         GAME_ITER = 1
+#         print(players)#変数への格納のtest
+#         game = SimpleGame(players=players,payoffmat=payoffmat)
+#         game.move_run(GAME_ITER) #need not to repeat
+#         print(game.history)
 
-# """プレイヤーのビリーフを生成する。"""# kokoha Simple_playernonaka p to belief ha double ni define siteru 0824
+
+'''メイン関数、このファイルはライブラリで利用するので以下は使用しない。'''
+# """プレイヤーのビリーフを生成する。"""# # ここはSimple_playerに設定している p と belief の違いに注意、ｐは混合戦略の確率、beliefはビリーフ
 # ptype = []
 # for i in range(9):
 #     tmp = Belief()
@@ -204,7 +208,7 @@ class Soup_Round(SimpleGame):#プレーヤー数N人のゲームにおける1on1
 # print(player_list[0].belief)
 # print(player_list[0].belief.p_cdi)
 # """SimpleGameの生成"""
-# test_game = SimpleGame(players=(player_list[0], player_list[2]), payoffmat=PAYOFFMAT) #elemt 2 no tuple
+# test_game = SimpleGame(players=(player_list[0], player_list[2]), payoffmat=PAYOFFMAT) #ゲームは２人ゲームなので、要素２の配列
 # # for i in range(len(player_list)):
 # #     for j in 
 
