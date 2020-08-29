@@ -155,30 +155,30 @@ class seihou_koushi(object):
 """if __name__ == "__main__":
 正方格子のテスト"""
 
-L=3 #最初に１辺のノード数を与える。L×Lの正方格子
+# L=3 #最初に１辺のノード数を与える。L×Lの正方格子
 #次数４で生成
-GGraph = seihou_koushi(L, False)
-GGraph.get_edge_between_rinjin
+# GGraph = seihou_koushi(L, False)
+# GGraph.get_edge_between_rinjin
 # GGraph.seihou_koushi_4(L, False)
 # print(GGraph.get_nodes_list())
 # print(len(GGraph.get_nodes_list()))
 
-GGnodes = GGraph.labelling(L)#ノード座標の順序付辞書を生成する
-print("labelling", GGnodes)
+# GGnodes = GGraph.labelling(L)#ノード座標の順序付辞書を生成する
+# print("labelling", GGnodes)
 
 # nodes_list=list(GGnodes)#生成した格子の全ノードを表示して確認。
 # print('ノードリスト＝', nodes_list)
 # print(list(GGraph.G.nodes))#生成した格子の全ノードを表示して確認。
 
-rinjin_0 = GGraph.get_rinjin(GGnodes[0])
-print(rinjin_0)
+# rinjin_0 = GGraph.get_rinjin(GGnodes[0])
+# print(rinjin_0)
 # ALL_rinjin = GGraph.get_ALL_rinjin_list() #ayashi
 # print(ALL_rinjin)
 
-keys = GGraph.get_keys_from_value((0,0))#座標からノードリストの番号に変換する。
-print("key=", keys)
+# keys = GGraph.get_keys_from_value((0,0))#座標からノードリストの番号に変換する。
+# print("key=", keys)
 
-print(GGraph.get_edge_between_rinjin(keys))
+# print(GGraph.get_edge_between_rinjin(keys))
 
 # test =[]
 # for j in range(len(nodes_list)):
