@@ -4,7 +4,7 @@ import itertools
 import pprint
 import numpy as np
 
-#PAYOFFMAT = [[(3,3),(0,5)], [(5,0),(1,1)]] #fixed
+PAYOFFMAT = [[(3,3),(0,5)], [(5,0),(1,1)]] #fixed
 
 # False = 0 Coorporate
 # True = 1  Defeat
@@ -38,6 +38,7 @@ class Simple_players:
         self.players_played.append(opponent)
     def history_memory(self, game):
         #playerの履歴の記憶
+        #print("------",self)
         history_memory = list(map(operator.itemgetter(game.players.index(self)), game.history)) 
         return history_memory
     def count_own_CorD(self, game, x):#履歴の中のCないしDの回数を数える。
@@ -49,6 +50,8 @@ class Simple_players:
         payoffs = [game.payoffmat[m1][m2] for (m1,m2) in game.history] #Hisoryをイテレーターにして最初の要素から順番に結果、例：(True, False)、を取り出し、それをペイオフ行列の要素の指定に使って各ステージゲームの結果利得をリスト化する。。。
         own_payoff_memory = [x[game.players.index(self)] for x in payoffs] #過去の全部の記憶（完全記憶）
         return own_payoff_memory
+
+    
 
 class Belief:
     """Typeのクラス"""
@@ -124,7 +127,7 @@ class SimpleGame:#あるプレイヤーとあるプレイヤーの対戦を生�
             self.players[0].record(self)
             self.players[1].record(self)
     
-    def get_a_payoff(self):
+    def get_total_payoff(self):#累積の利得の合計
         it = iter(self.history)
         # print(it)
         # print("--------------------")
@@ -132,7 +135,9 @@ class SimpleGame:#あるプレイヤーとあるプレイヤーの対戦を生�
         row_payoff = [x[0] for x in payoffs]
         column_payoff = [x[1] for x in payoffs]
         '''二次元配列なのでpayoffmat[0][0]で1行１列目の利得、例：PAYOFFMAT = [[(3,3),(0,5)], [(5,0),(1,1)]]'''
-        return {self.players[0] : row_payoff, self.players[1] : column_payoff} 
+        total_row_payoff = sum(row_payoff)
+        total_column_payoff = sum(column_payoff)
+        return {self.players[0] : total_row_payoff, self.players[1] : total_column_payoff} 
     
     def average_payoff(self):
         it = iter(self.history)
@@ -167,72 +172,72 @@ class SimpleGame:#あるプレイヤーとあるプレイヤーの対戦を生�
 
 
 '''メイン関数、このファイルはライブラリで利用するので以下は使用しない。'''
-# """プレイヤーのビリーフを生成する。"""# # ここはSimple_playerに設定している p と belief の違いに注意、ｐは混合戦略の確率、beliefはビリーフ
-# ptype = []
+"""プレイヤーのビリーフを生成する。"""# # ここはSimple_playerに設定している p と belief の違いに注意、ｐは混合戦略の確率、beliefはビリーフ
+ptype = []
+for i in range(9):
+    tmp = Belief()
+    ptype.append(tmp)
+# ptype1 = Belief()
+# ptype2 = Belief()
+# ptype3 = Belief()
+# ptype4 = Belief()
+# ptype5 = Belief()
+# ptype6 = Belief()
+# ptype7 = Belief()
+# ptype8 = Belief()
+# ptype9 = Belief()
+print("PTYPE=",ptype[0].p_cdi)
+print("PTYPE=",ptype[6].p_cdi)
+""""プレイヤーのオブジェクトを生成する。"""
+# player1 = Simple_players(p=0.5,belief=ptype1,players_id=1)
+# player2 = Simple_players(0.5, ptype2,2)
+# player3 = Simple_players(0.5, ptype3,3)
+# player4 = Simple_players(0.5, ptype4,4)
+# player5 = Simple_players(0.5, ptype5,5)
+# player6 = Simple_players(0.5, ptype6,6)
+# player7 = Simple_players(0.5, ptype7,7)
+# player8 = Simple_players(0.5, ptype8,8)
+# player9 = Simple_players(0.5, ptype9,9)
 # for i in range(9):
-#     tmp = Belief()
-#     ptype.append(tmp)
-# # ptype1 = Belief()
-# # ptype2 = Belief()
-# # ptype3 = Belief()
-# # ptype4 = Belief()
-# # ptype5 = Belief()
-# # ptype6 = Belief()
-# # ptype7 = Belief()
-# # ptype8 = Belief()
-# # ptype9 = Belief()
-# print("PTYPE=",ptype[0].p_cdi)
-# print("PTYPE=",ptype[6].p_cdi)
-# """"プレイヤーのオブジェクトを生成する。"""
-# # player1 = Simple_players(p=0.5,belief=ptype1,players_id=1)
-# # player2 = Simple_players(0.5, ptype2,2)
-# # player3 = Simple_players(0.5, ptype3,3)
-# # player4 = Simple_players(0.5, ptype4,4)
-# # player5 = Simple_players(0.5, ptype5,5)
-# # player6 = Simple_players(0.5, ptype6,6)
-# # player7 = Simple_players(0.5, ptype7,7)
-# # player8 = Simple_players(0.5, ptype8,8)
-# # player9 = Simple_players(0.5, ptype9,9)
-# # for i in range(9):
-# player_list = []
-# for i in range(9):
-#     tmp = Simple_players(0.5, ptype[i], players_id=i)
-#     player_list.append(tmp)
-# """プレイヤーオブジェクトの確認もろもろ"""
-# # print(player1.SPidNum, player2.SPidNum)
-# # print(player1.move())
-# # print(player1.belief)
-# # print(player1.belief.p_cdi)
-# print(player_list[0].SPidNum, player_list[1].SPidNum)
-# print(player_list[0].move())
-# print(player_list[0].belief)
-# print(player_list[0].belief.p_cdi)
-# """SimpleGameの生成"""
-# test_game = SimpleGame(players=(player_list[0], player_list[2]), payoffmat=PAYOFFMAT) #ゲームは２人ゲームなので、要素２の配列
-# # for i in range(len(player_list)):
-# #     for j in 
+player_list = []
+for i in range(9):
+    tmp = Simple_players(0.5, ptype[i], players_id=i)
+    player_list.append(tmp)
+"""プレイヤーオブジェクトの確認もろもろ"""
+# print(player1.SPidNum, player2.SPidNum)
+# print(player1.move())
+# print(player1.belief)
+# print(player1.belief.p_cdi)
+print(player_list[0].SPidNum, player_list[1].SPidNum)
+print(player_list[0].move())
+print(player_list[0].belief)
+print(player_list[0].belief.p_cdi)
+"""SimpleGameの生成"""
+test_game = SimpleGame(players=(player_list[0], player_list[2]), payoffmat=PAYOFFMAT) #ゲームは２人ゲームなので、要素２の配列
+# for i in range(len(player_list)):
+#     for j in 
 
-# """ゲームオブジェクトの確認"""
-# print(test_game.players)
-# print(test_game.opponents)
+"""ゲームオブジェクトの確認"""
+print(test_game.players)
+print(test_game.opponents)
+test_game.move_run(game_iter=4)
+print(player_list[0].payoff_memory(test_game))
+print(test_game.history)
+print(player_list[0].history_memory(test_game))
+# """"シンプルゲームの実行、混合戦略を４回繰り返す。"""
 # test_game.move_run(game_iter=4)
-# print(player_list[0].payoff_memory(test_game))
+# """結果の確認、メソッドのチェック"""
+# print(player1.payoff_memory(test_game))
 # print(test_game.history)
-# print(player_list[0].history_memory(test_game))
-# # """"シンプルゲームの実行、混合戦略を４回繰り返す。"""
-# # test_game.move_run(game_iter=4)
-# # """結果の確認、メソッドのチェック"""
-# # print(player1.payoff_memory(test_game))
-# # print(test_game.history)
-# # print(player1.history_memory(test_game))
-# # print(type(player1.record(test_game)))
-# # print(type(player2.games_played))
-# # print(player1.games_played)
-# # print(player1.players_played)
-# # print(test_game.get_last_move(player1))
-# # print(test_game.get_players_index(player1))
-# # print(test_game.get_each_player_id(player1))
-# # print(test_game.get_each_player_id(player2))
+# print(player1.history_memory(test_game))
+# print(type(player1.record(test_game)))
+# print(type(player2.games_played))
+# print(player1.games_played)
+# print(player1.players_played)
+# print(test_game.get_last_move(player1))
+# print(test_game.get_players_index(player1))
+# print(test_game.get_each_player_id(player1))
+# print(test_game.get_each_player_id(player2))
 # """タイプに依存したプレイでシンプルゲームを実行"""
 # # test_game.action_run(game_iter=4)
 # """いろいろと確認、同上"""
