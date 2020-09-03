@@ -65,7 +65,7 @@ for j in range(len(nodes_list)):
 """与えられた正方格子上の全プレイヤーが、ゲームを規定の回数だけ繰り返す。"""
 """これだと、０と１が対戦するのと、１と０が対戦するのが別になっている。自分自身との対戦はないので、組み合わせは倍でもない。この問題は解決した。枝リストに着目して対戦を回す"""
 PAYOFFMAT = [[(3,3),(0,5)], [(5,0),(1,1)]] #ゲームの利得行列
-number_of_repetition = 4 #繰り返し回数
+number_of_repetition = 2 #繰り返し回数
 
 print(player_list)
 print(type(player_list))
@@ -97,9 +97,14 @@ for i in range(len(player_list)):
 
 # print(eda_list)
 
-# print(eda_list)
+history_memory = []
+payoff_memory = []
+total_payoff_table = [[0 for i in range(len(nodes_list))] for j in range(len(nodes_list))]
 
+# print(eda_list)
+print(player_list[0])
 for i in range(len(player_list)):
+    # print('test----', i)
     for j in range(len(player_list)):
         if eda_list[i][j] == 1:
             print(i, j)#自分と対戦相手を表示している。
@@ -109,10 +114,39 @@ for i in range(len(player_list)):
             a_game.move_run(game_iter=number_of_repetition) #onaji pair  de kurikaesu
             
             #諸々の確認
-            print(a_game.history)#プレイの履歴を表示
-            print(player_list[i].payoff_memory(a_game))#自分の利得を表示
-            print(player_list[j].payoff_memory(a_game))#相手の利得を表示
+            # print(a_game.history)#プレイの履歴を表示
+            # print(player_list[i].payoff_memory(a_game))#自分の利得を表示
+            # print(player_list[j].payoff_memory(a_game))#相手の利得を表示
+            # print(a_game.average_payoff())
+            # print(a_game.get_total_payoff())
+            # print(player_list[i].history_memory(a_game))
+            # print(player_list[i].payoff_memory(a_game))
+            tmp_total = a_game.get_total_payoff()
+            tmp_i = tmp_total.get(player_list[i])
+            # print(tmp)
+            tmp_j = tmp_total.get(player_list[j])
+            total_payoff_table[i][j] = tmp_i
+            total_payoff_table[j][i] = tmp_j
+            # print(total_payoff_table[i][j])
+            # print(total_payoff_table[j][i])
 
+            # history_memory.append(player_list[i].history_memory(a_game))
+            # payoff_memory.append(player_list[i].payoff_memory(a_game))
+            # for j in range(len(all_neighbors_list[i]):
+
+            #print(history_memory)
+            #test = list(zip(history_memory, payoff_memory))
+            # print(test)
+            
+            #print(player_list[0].record(a_game))
+
+print(total_payoff_table)
+print("hirai_tokuten=", sum(total_payoff_table[0])) #自分がその期において得た得点の合計
+#この得点の合計とランダムに選んだ隣人の同じ合計と比較して、アップデート（行動の選択を変える）する
+#updateの仕方はいちばん有名なのがフェルミ関数での確率、その確率で戦略を変更する。この変更を双方向するのが
+
+# 生成したゲームオブジェクトが過去の対戦者の記録はもっていない。初期化のタイミングがいまのままだと全部ループの中に書く必要がある。
+# print(player_list[7].history_memory(a_game))
 # print(a_game.history)
 # print(GGnodes[0])
 # print(GGraph.degree_of_a_node(GGnodes[0]))#(0,0)の次数は2
