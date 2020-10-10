@@ -1,6 +1,8 @@
 import esgame
 import class_graphs2
 import networkx as nx
+import random
+import numpy as np
 
 # False = 0 Coorporate
 # True = 1  Defeat
@@ -145,6 +147,35 @@ print("hirai_tokuten=", sum(total_payoff_table[0])) #自分がその期におい
 #この得点の合計とランダムに選んだ隣人の同じ合計と比較して、アップデート（行動の選択を変える）する
 #updateの仕方はいちばん有名なのがフェルミ関数での確率、その確率で戦略を変更する。この変更を双方向するのが
 
+print(all_neighbors_list[0])
+print(total_payoff_table[1])
+print(total_payoff_table[all_neighbors_list[0][0]])
+print(total_payoff_table[all_neighbors_list[0][1]])
+
+#print(random.sample(all_neighbors_list[0], 1))
+x = random.sample(all_neighbors_list[0], 1) #list de kaeru
+print("------",x[0])
+all_neighbors_list[0].index(x[0])
+chosen_neighbor_index = all_neighbors_list[0].index(x[0])
+oppopnet_payoff = sum(total_payoff_table[all_neighbors_list[0][chosen_neighbor_index]]) #chosen random from somneone's neighbor
+own_payoff = sum(total_payoff_table[0])
+print(oppopnet_payoff, own_payoff)
+beta = 10
+tmp = np.exp(-(oppopnet_payoff-own_payoff)*beta)
+
+print(tmp)
+fermi_prob = 1/(1+tmp)
+print(fermi_prob) #updating no kakuritu
+
+randb = random.random()
+""""if randb < fermi_prob:""" #bunki
+    #update no naiyou
+print(player_list[0].p_defect)
+print(player_list[1].p_defect)
+player_list[0].p_update(oppopnet_payoff, own_payoff)
+# print(player_list[0].p)
+print(player_list[0].p_defect) #kono update ha epsilon matiageru
+print(player_list[1].p_defect)
 # 生成したゲームオブジェクトが過去の対戦者の記録はもっていない。初期化のタイミングがいまのままだと全部ループの中に書く必要がある。
 # print(player_list[7].history_memory(a_game))
 # print(a_game.history)
