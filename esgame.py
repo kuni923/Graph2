@@ -50,7 +50,14 @@ class Simple_players:
         payoffs = [game.payoffmat[m1][m2] for (m1,m2) in game.history] #Hisoryをイテレーターにして最初の要素から順番に結果、例：(True, False)、を取り出し、それをペイオフ行列の要素の指定に使って各ステージゲームの結果利得をリスト化する。。。
         own_payoff_memory = [x[game.players.index(self)] for x in payoffs] #過去の全部の記憶（完全記憶）
         return own_payoff_memory
-
+    def p_update(self,oppopnet_payoff,own_payoff):
+        beta = 10
+        tmp = np.exp(-(oppopnet_payoff-own_payoff)*beta)
+        print(tmp)
+        #fermi_prob = 1/(1+tmp)
+        self.p_defect = 1/(1+tmp)
+        # randb = random.random()
+        # """"if randb < fermi_prob:""" #bunki
     
 
 class Belief:
